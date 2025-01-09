@@ -3,31 +3,38 @@
 #include <stdio.h>
 #include "lists.h"
 
-listint_t *insert_node(listint_t **head, int number){
-    listint_t *new;
-    listint_t *current;
+/**
+ * insert_node - Inserts a new node into a sorted singly linked list
+ * @head: Pointer to the pointer to the first node of the list
+ * @number: The number to insert into the list
+ *
+ * Return: Pointer to the new node, or NULL if memory allocation fails
+ */
+listint_t *insert_node(listint_t **head, int number)
+{
+	listint_t *new;
+	listint_t *current;
 
-    current = *head;
+	new = malloc(sizeof(listint_t));
+	if (new == NULL)
+		return (NULL);
 
-    new = malloc(sizeof(listint_t));
-    if (new == NULL)
-        return (NULL);
+	new->n = number;
+	new->next = NULL;
 
-    new->n = number;
-    new->next = NULL;
+	if (*head == NULL || (*head)->n >= number)
+	{
+		new->next = *head;
+		*head = new;
+		return (new);
+	}
 
-    if (*head == NULL)
-        *head = new;
-    else
-    {
-        while (current->next->n <= number)
-            current = current->next;
-		if (current->next != NULL){
-			new->next = current->next;
-        	current->next = new; 
-		}
-    }
+	current = *head;
+	while (current->next != NULL && current->next->n < number)
+		current = current->next;
 
-    return (new);
+	new->next = current->next;
+	current->next = new;
+
+	return (new);
 }
-
