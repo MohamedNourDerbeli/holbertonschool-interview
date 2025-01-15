@@ -66,7 +66,7 @@ size_t binary_tree_size(const binary_tree_t *tree)
  */
 size_t binary_tree_find_index(size_t size)
 {
-	return size;
+	return (size);
 }
 
 /**
@@ -97,6 +97,7 @@ heap_t *get_parent_node(heap_t *root, size_t index)
 void swap_values(heap_t *a, heap_t *b)
 {
 	int temp = a->n;
+
 	a->n = b->n;
 	b->n = temp;
 }
