@@ -10,7 +10,7 @@ Version: 1.0
 
 import sys
 
-def min_operations(n):
+def minOperations(n):
     """
     Calculate the minimum number of operations to obtain `n` starting from 1.
 
@@ -41,21 +41,3 @@ def min_operations(n):
 
     # Return the result for `n`.
     return dp[n]
-
-if __name__ == "__main__":
-    # Ensure the script is run with a valid input number.
-    if len(sys.argv) != 2:
-        print("Usage: python3 min_operations.py <number>")
-        sys.exit(1)
-
-    try:
-        target = int(sys.argv[1])
-        if target < 1:
-            raise ValueError("The number must be a positive integer.")
-    except ValueError as e:
-        print(f"Invalid input: {e}")
-        sys.exit(1)
-
-    # Calculate and display the minimum operations to reach the target number.
-    result = min_operations(target)
-    print(f"Minimum operations to reach {target}: {result}")
