@@ -44,10 +44,13 @@ def main():
     try:
         for line in sys.stdin:
             line = line.strip()
-            match = pattern.match(line)  # Use `match()` to ensure the entire line matches
+            print(f"Processing line: {line}")  # Debugging: Print the line being processed
+            match = pattern.match(line)
 
             if match:
                 status_str, size_str = match.groups()
+                print(f"Extracted status: {status_str}, size: {size_str}")  # Debugging: Print extracted values
+
                 try:
                     status = int(status_str)
                     size = int(size_str)
@@ -60,9 +63,11 @@ def main():
                     if line_count % 10 == 0:
                         print_stats(total_size, status_counts)
                 except ValueError:
-                    continue  # Ignore lines that fail conversion
+                    print("Skipping line (invalid status or size)")  # Debugging: Print if conversion fails
+                    continue
             else:
-                continue  # Ignore completely malformed lines
+                print("Skipping line (does not match pattern)")  # Debugging: Print if line is skipped
+                continue
 
     except KeyboardInterrupt:
         print_stats(total_size, status_counts)
