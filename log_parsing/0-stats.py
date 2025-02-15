@@ -35,21 +35,20 @@ def main():
 
     # Regular expression to match log format
     pattern = re.compile(
-        r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # IP address
-        r' .* '                                 # Ignore other fields
-        r'"GET /projects/260 HTTP/1\.1" '       # Request line
-        r'(\d{3}) '                             # Status code
-        r'(\d+)'                                # File size
+        r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'  # IP address
+        r' - \[.*?\] '                           # Date (flexible format)
+        r'"GET /projects/260 HTTP/1\.1" '         # Request line
+        r'(\d{3}) (\d+)$'                        # Status code and file size
     )
 
     try:
         for line in sys.stdin:
             line = line.strip()
-            match = pattern.search(line)  # Use `search()` instead of `match()`
+            match = pattern.match(line)  # Use `match()` to ensure the entire line matches
 
             if match:
+                status_str, size_str = match.groups()
                 try:
-                    _, status_str, size_str = match.groups()
                     status = int(status_str)
                     size = int(size_str)
 
