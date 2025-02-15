@@ -36,7 +36,7 @@ def main():
     # Regular expression to match log format
     pattern = re.compile(
         r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # IP address
-        r' - \[.*?\] '                          # Date (ignored)
+        r' .* '                                 # Ignore other fields
         r'"GET /projects/260 HTTP/1\.1" '       # Request line
         r'(\d{3}) '                             # Status code
         r'(\d+)'                                # File size
@@ -45,7 +45,7 @@ def main():
     try:
         for line in sys.stdin:
             line = line.strip()
-            match = pattern.search(line)
+            match = pattern.search(line)  # Use `search()` instead of `match()`
 
             if match:
                 try:
