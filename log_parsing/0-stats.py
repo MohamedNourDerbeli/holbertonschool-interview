@@ -6,8 +6,8 @@ Log parser that reads from standard input and computes:
 
 Outputs stats every 10 lines, at the end of input, and when interrupted.
 """
-import re
 import sys
+import re
 
 
 def print_stats(total_size, status_counts):
@@ -35,36 +35,35 @@ def main():
 
     # Regular expression to match log format
     pattern = re.compile(
-        r'^'
         r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # IP address
         r' - \[.*?\] '                          # Date (ignored)
         r'"GET /projects/260 HTTP/1\.1" '       # Request line
         r'(\d{3}) '                             # Status code
-        r'(\d+)$'                               # File size
+        r'(\d+)'                                # File size
     )
 
     try:
         for line in sys.stdin:
             line = line.strip()
-            match = pattern.match(line)
-            if not match:
-                continue
+            match = pattern.search(line)
 
-            _, status_str, size_str = match.groups()
+            if match:
+                try:
+                    _, status_str, size_str = match.groups()
+                    status = int(status_str)
+                    size = int(size_str)
 
-            try:
-                status = int(status_str)
-                size = int(size_str)
-            except ValueError:
-                continue  # Skip malformed lines
+                    total_size += size
+                    if status in allowed_statuses:
+                        status_counts[status] += 1
 
-            total_size += size
-            if status in allowed_statuses:
-                status_counts[status] += 1
-
-            line_count += 1
-            if line_count % 10 == 0:
-                print_stats(total_size, status_counts)
+                    line_count += 1
+                    if line_count % 10 == 0:
+                        print_stats(total_size, status_counts)
+                except ValueError:
+                    continue  # Ignore lines that fail conversion
+            else:
+                continue  # Ignore completely malformed lines
 
     except KeyboardInterrupt:
         print_stats(total_size, status_counts)
