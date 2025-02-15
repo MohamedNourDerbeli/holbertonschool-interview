@@ -1,76 +1,48 @@
 #!/usr/bin/python3
 """
-Log parser that reads from standard input and computes:
-- The total file size.
-- The count of status codes from allowed categories.
-
-Outputs stats every 10 lines, at the end of input, and when interrupted.
+Task - Script that reads stdin line by line and computes metrics
 """
+
 import sys
-import re
-
-
-def print_stats(total_size, status_counts):
-    """
-    Prints the accumulated file size and counts of allowed status codes.
-
-    :param total_size: The total size of all processed requests.
-    :param status_counts: Dictionary mapping HTTP status codes to their occurrence count.
-    """
-    print(f"File size: {total_size}")
-    for code in sorted(status_counts):
-        if status_counts[code] > 0:
-            print(f"{code}: {status_counts[code]}")
-
-
-def main():
-    """
-    Reads log entries from standard input, extracts file sizes and status codes,
-    and prints aggregated statistics every 10 lines or at the end of input.
-    """
-    total_size = 0
-    allowed_statuses = {200, 301, 400, 401, 403, 404, 405, 500}
-    status_counts = {code: 0 for code in allowed_statuses}
-    line_count = 0
-
-    # Regular expression to match log format
-    pattern = re.compile(
-        r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'  # IP address
-        r' - \[.*?\] '                           # Date (flexible format)
-        r'"GET /projects/260 HTTP/1\.1" '         # Request line
-        r'(\d{3}) (\d+)$'                        # Status code and file size
-    )
-
-    try:
-        for line in sys.stdin:
-            line = line.strip()
-            match = pattern.match(line)  # Use `match()` to ensure the entire line matches
-
-            if match:
-                status_str, size_str = match.groups()
-                try:
-                    status = int(status_str)
-                    size = int(size_str)
-
-                    total_size += size
-                    if status in allowed_statuses:
-                        status_counts[status] += 1
-
-                    line_count += 1
-                    if line_count % 10 == 0:
-                        print_stats(total_size, status_counts)
-                except ValueError:
-                    continue  # Ignore lines that fail conversion
-            else:
-                continue  # Ignore completely malformed lines
-
-    except KeyboardInterrupt:
-        print_stats(total_size, status_counts)
-        raise  # Re-raise for proper exit signal handling
-
-    # **Always print stats at least once (even for an empty file)**
-    print_stats(total_size, status_counts)
 
 
 if __name__ == "__main__":
-    main()
+    st_code = {"200": 0,
+               "301": 0,
+               "400": 0,
+               "401": 0,
+               "403": 0,
+               "404": 0,
+               "405": 0,
+               "500": 0}
+    count = 1
+    file_size = 0
+
+    def parse_line(line):
+        """ Read, parse and grab data"""
+        try:
+            parsed_line = line.split()
+            status_code = parsed_line[-2]
+            if status_code in st_code.keys():
+                st_code[status_code] += 1
+            return int(parsed_line[-1])
+        except Exception:
+            return 0
+
+    def print_stats():
+        """print stats in ascending order"""
+        print("File size: {}".format(file_size))
+        for key in sorted(st_code.keys()):
+            if st_code[key]:
+                print("{}: {}".format(key, st_code[key]))
+
+    try:
+        for line in sys.stdin:
+            file_size += parse_line(line)
+            if count % 10 == 0:
+                print_stats()
+            count += 1
+    except KeyboardInterrupt:
+        print_stats()
+        raise
+    print_stats()
