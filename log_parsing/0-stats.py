@@ -4,7 +4,7 @@ Log parser that reads from standard input and computes:
 - The total file size.
 - The count of status codes from allowed categories.
 
-Outputs stats every 10 lines and on keyboard interrupt.
+Outputs stats every 10 lines, at the end of input, and when interrupted.
 """
 import re
 import sys
@@ -66,13 +66,12 @@ def main():
             if line_count % 10 == 0:
                 print_stats(total_size, status_counts)
 
-        # Ensure stats are printed if fewer than 10 lines were processed
-        if line_count % 10 != 0:
-            print_stats(total_size, status_counts)
-
     except KeyboardInterrupt:
         print_stats(total_size, status_counts)
         raise  # Re-raise for proper exit signal handling
+
+    # **Always print stats at least once (even for an empty file)**
+    print_stats(total_size, status_counts)
 
 
 if __name__ == "__main__":
