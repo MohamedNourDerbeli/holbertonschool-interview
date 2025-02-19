@@ -10,18 +10,22 @@
  */
 int check_cycle(listint_t *list)
 {
-	const listint_t *current;
+    listint_t *tortoise, *hare;
 
-	if (list == NULL || list->next == NULL)
-		return (0);
+    if (list == NULL || list->next == NULL)
+        return (0);
 
-	current = list;
-	while (current != NULL && current->next != NULL)
-	{
-		if (current->next == list)
-			return (1); /* Cycle detected */
-		current = current->next;
-	}
+    tortoise = list;
+    hare = list->next;
 
-	return (0); /* No cycle found */
+    while (hare != NULL && hare->next != NULL)
+    {
+        if (tortoise == hare)
+            return (1);
+
+        tortoise = tortoise->next;
+        hare = hare->next->next;
+    }
+
+    return (0);
 }
