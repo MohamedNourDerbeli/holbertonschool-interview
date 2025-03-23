@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <math.h>
 #include "menger.h"
+#include <math.h>
+#include <stdio.h>
 
 /**
  * is_blank - Check if a position in the Menger sponge should be blank
@@ -28,10 +28,10 @@ int is_blank(int x, int y)
 void menger(int level)
 {
     int size, x, y;
-    
+
     if (level < 0)
         return;
-    
+
     size = pow(3, level);
     for (x = 0; x < size; x++)
     {
