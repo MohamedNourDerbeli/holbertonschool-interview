@@ -1,7 +1,7 @@
 #include "binary_trees.h"
 
 /**
- * create_avl_from_sorted_array
+ * create_avl_from_sorted_array - Builds an AVL tree
  * @array: Pointer to the first element of the array segment.
  * @start: Starting index of the segment.
  * @end: Ending index of the segment.
