@@ -8,8 +8,8 @@
  * @parent: Pointer to the parent node.
  * Return: Pointer to the root node of the created subtree.
  */
-avl_t *create_avl_from_sorted_array
-(int *array, int start, int end, avl_t *parent)
+avl_t *create_avl_from_sorted_array(int *array, int start,
+	int end, avl_t *parent)
 {
 	avl_t *root;
 	int mid;
