@@ -8,7 +8,8 @@
  * @parent: Pointer to the parent node.
  * Return: Pointer to the root node of the created subtree.
  */
-avl_t *create_avl_from_sorted_array(int *array, int start, int end, avl_t *parent)
+avl_t *create_avl_from_sorted_array
+(int *array, int start, int end, avl_t *parent)
 {
 	avl_t *root;
 	int mid;
@@ -33,7 +34,7 @@ avl_t *create_avl_from_sorted_array(int *array, int start, int end, avl_t *paren
  * sorted_array_to_avl - Builds an AVL tree from a sorted array.
  * @array: Pointer to the first element of the array to be converted.
  * @size: Number of elements in the array.
- * Return: Pointer to the root node of the created AVL tree, or NULL on failure.
+ * Return: Pointer to the root node
  */
 avl_t *sorted_array_to_avl(int *array, size_t size)
 {
