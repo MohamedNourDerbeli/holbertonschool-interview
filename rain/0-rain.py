@@ -4,6 +4,7 @@ Module that calculates the amount of rainwater retained
 after it rains on a landscape represented by wall heights.
 """
 
+
 def rain(walls):
     """
     Calculates total amount of rainwater retained.
@@ -38,5 +39,4 @@ def rain(walls):
             else:
                 water += right_max - walls[right]
             right -= 1
-
     return water
