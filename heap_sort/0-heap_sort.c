@@ -7,9 +7,9 @@
  */
 void swap_ints(int *a, int *b)
 {
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
 /**
@@ -21,23 +21,23 @@ void swap_ints(int *a, int *b)
  */
 void sift_down(int *array, size_t size, size_t start, size_t end)
 {
-    size_t root = start, child, swap;
+	size_t root = start, child, swap;
 
-    while (2 * root + 1 <= end)
-    {
-        child = 2 * root + 1;
-        swap = root;
+	while (2 * root + 1 <= end)
+	{
+		child = 2 * root + 1;
+		swap = root;
 
-        if (array[swap] < array[child])
-            swap = child;
-        if (child + 1 <= end && array[swap] < array[child + 1])
-            swap = child + 1;
-        if (swap == root)
-            return;
-        swap_ints(&array[root], &array[swap]);
-        print_array(array, size);
-        root = swap;
-    }
+		if (array[swap] < array[child])
+			swap = child;
+		if (child + 1 <= end && array[swap] < array[child + 1])
+			swap = child + 1;
+		if (swap == root)
+			return;
+		swap_ints(&array[root], &array[swap]);
+		print_array(array, size);
+		root = swap;
+	}
 }
 
 /**
@@ -47,13 +47,13 @@ void sift_down(int *array, size_t size, size_t start, size_t end)
  */
 void heapify(int *array, size_t size)
 {
-    int start = (size - 2) / 2;  // Changed from ssize_t to int
+	int start = (size - 2) / 2;
 
-    while (start >= 0)
-    {
-        sift_down(array, size, start, size - 1);
-        start--;
-    }
+	while (start >= 0)
+	{
+		sift_down(array, size, start, size - 1);
+		start--;
+	}
 }
 
 /**
@@ -63,19 +63,19 @@ void heapify(int *array, size_t size)
  */
 void heap_sort(int *array, size_t size)
 {
-    size_t end;
+	size_t end;
 
-    if (!array || size < 2)
-        return;
+	if (!array || size < 2)
+		return;
 
-    heapify(array, size);
+	heapify(array, size);
 
-    end = size - 1;
-    while (end > 0)
-    {
-        swap_ints(&array[0], &array[end]);
-        print_array(array, size);
-        end--;
-        sift_down(array, size, 0, end);
-    }
+	end = size - 1;
+	while (end > 0)
+	{
+		swap_ints(&array[0], &array[end]);
+		print_array(array, size);
+		end--;
+		sift_down(array, size, 0, end);
+	}
 }
