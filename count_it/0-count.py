@@ -59,14 +59,9 @@ def count_words(subreddit, word_list, after=None, word_counts=None):
         for word, count in sorted_counts:
             print(f"{word}: {count}")
 
-
     except Exception:
         return
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print("Usage: {} <subreddit> <list of keywords>".format(sys.argv[0]))
-        print("Ex: {} programming 'python java javascript'".format(sys.argv[0]))
-    else:
-        count_words(sys.argv[1], [x for x in sys.argv[2].split()])
+    count_words(sys.argv[1], [x for x in sys.argv[2].split()])
