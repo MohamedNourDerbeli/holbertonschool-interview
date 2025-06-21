@@ -1,17 +1,14 @@
-#!/usr/bin/python3
-"""
-Function to determine the fewest number of coins needed to meet a given amount total.
-"""
 def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    coins = sorted(coins, reverse=True)
-    count = 0
+    # Initialize DP table with total+1, which is an impossible max (acts like infinity)
+    dp = [total + 1] * (total + 1)
+    dp[0] = 0  # 0 coins are needed to make total of 0
 
-    for coin in coins:
-        while total >= coin:
-            total -= coin
-            count += 1
+    for amount in range(1, total + 1):
+        for coin in coins:
+            if coin <= amount:
+                dp[amount] = min(dp[amount], dp[amount - coin] + 1)
 
-    return count if total == 0 else -1
+    return dp[total] if dp[total] != total + 1 else -1
