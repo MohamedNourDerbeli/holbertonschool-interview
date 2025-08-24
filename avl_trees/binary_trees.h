@@ -34,6 +34,10 @@ typedef struct avl_data_s
 	int is_AVL;
 } avl_data_t;
 
+static inline int max_int(int a, int b)
+{
+    return (a > b ? a : b);
+}
 
 /* binary_tree_print.c */
 void binary_tree_print(const binary_tree_t *);
